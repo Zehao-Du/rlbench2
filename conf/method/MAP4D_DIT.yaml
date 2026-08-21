@@ -1,0 +1,70 @@
+name: MAP4D_DIT
+agent_type: bimanual
+robot_name: bimanual
+
+action_horizon: 50
+keyframe_horizon: 4
+n_obs_steps: 2
+n_action_steps: 50
+fps_num: 6144
+dino_feature_dim: 384
+dinov2_repo_path: /inspire/hdd/project/robot-dna/baojiachun-CZXS25130063/zehao/4dmap/PPI/repos/dinov2
+dinov2_weights_path: /inspire/hdd/project/robot-dna/baojiachun-CZXS25130063/zehao/foundation_models/DINOv2/dinov2_vits14_pretrain.pth
+semantic_feature_source: fusion
+map_pose_source: simulator
+map_object_name: cube
+bounding_box: [[-0.5, -0.55, 0.6], [1.1, 0.55, 1.98]]
+debug_map_video_path: ""
+debug_map_video_camera: front
+debug_map_video_fps: 10
+
+policy:
+  _target_: map4d.backbone.policy.map4d_dit_policy.Map4DDiTPolicy
+  action_horizon: ${method.action_horizon}
+  keyframe_horizon: ${method.keyframe_horizon}
+  n_action_steps: ${method.n_action_steps}
+  n_obs_steps: ${method.n_obs_steps}
+  trajectory_loss_weight: 30.0
+  keyframe_tcp_loss_weight: 1.0
+  keyframe_map4d_loss_weight: 0.3
+  gripper_loss_weight: 30.0
+  noise_scheduler_cfg:
+    num_train_timesteps: 1000
+    prediction_type: epsilon
+    position_beta_schedule: scaled_linear
+    rotation_beta_schedule: squaredcos_cap_v2
+  num_inference_steps: 1000
+  model_cfg:
+    robot_state_dim: 16
+    num_objects: 1
+    map4d_dim: 7
+    size_parameter_dim: 3
+    relation_parameter_dim: 0
+    trajectory_dim: 7
+    tcp_dim: 7
+    rgb_feature_dim: 384
+    semantic_feature_dim: ${method.dino_feature_dim}
+    semantic_feature_mode: precomputed
+    map_feature_dim: 240
+    n_map_step: ${method.n_obs_steps}
+    num_arms: 2
+    num_map_nodes: 1
+    use_map_encoder: true
+    map_name: rlbench2_push_box
+    map_encoder_num_layers: 4
+    map_encoder_num_heads: 8
+    use_lang: false
+    pointcloud_encoder_cfg:
+      in_channels: 387
+      out_channels: ${method.policy.model_cfg.embed_dim}
+      use_bn: true
+      npoint1: 1024
+      npoint2: 512
+    embed_dim: 240
+    depth: 8
+    num_heads: 8
+    mlp_ratio: 4.0
+    dropout: 0.0
+    diffusion_step_embed_dim: 240
+    use_rgb: true
+    max_context_tokens: 20000

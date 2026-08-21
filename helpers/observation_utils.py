@@ -226,11 +226,13 @@ def create_obs_config(
 ):
     unused_cams = CameraConfig()
     unused_cams.set_all(False)
+    use_metric_depth = method_name == "MAP4D_DIT"
     used_cams = CameraConfig(
         rgb=True,
         point_cloud=True,
         mask=False,
-        depth=False,
+        depth=use_metric_depth,
+        depth_in_meters=use_metric_depth,
         image_size=camera_resolution,
         render_mode=RenderMode.OPENGL,
     )

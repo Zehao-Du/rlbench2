@@ -12,7 +12,7 @@ from yarr.agents.agent import Agent
 supported_agents = {
     "leader_follower": ("PERACT_BC", "RVT"),
     "independent": ("PERACT_BC", "RVT"),
-    "bimanual": ("BIMANUAL_PERACT", "ACT_BC_LANG"),
+    "bimanual": ("BIMANUAL_PERACT", "ACT_BC_LANG", "MAP4D_DIT", "RANDOM_BIMANUAL"),
     "unimanual": (),
 }
 
@@ -104,6 +104,14 @@ def agent_fn_by_name(method_name: str) -> Agent:
         from agents import act_bc_lang
 
         return act_bc_lang.launch_utils.create_agent
+    elif method_name == "MAP4D_DIT":
+        from agents import map4d_dit
+
+        return map4d_dit.launch_utils.create_agent
+    elif method_name == "RANDOM_BIMANUAL":
+        from agents import random_bimanual
+
+        return random_bimanual.launch_utils.create_agent
     elif method_name == "PERACT_RL":
         raise NotImplementedError("PERACT_RL not yet supported for eval.py")
 

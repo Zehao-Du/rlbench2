@@ -134,8 +134,12 @@ class CustomRLBenchEnv(RLBenchEnv):
 
         obs_dict["left_joint_positions"] = obs.left.joint_positions
         obs_dict["left_gripper_joint_positions"] = obs.left.gripper_joint_positions
+        obs_dict["left_gripper_pose"] = obs.left.gripper_pose
+        obs_dict["left_gripper_open"] = np.array([obs.left.gripper_open])
         obs_dict["right_joint_positions"] = obs.right.joint_positions
         obs_dict["right_gripper_joint_positions"] = obs.right.gripper_joint_positions
+        obs_dict["right_gripper_pose"] = obs.right.gripper_pose
+        obs_dict["right_gripper_open"] = np.array([obs.right.gripper_open])
 
         return obs_dict
 
@@ -402,8 +406,12 @@ class CustomMultiTaskRLBenchEnv(MultiTaskRLBenchEnv):
 
         obs_dict["left_joint_positions"] = obs.left.joint_positions
         obs_dict["left_gripper_joint_positions"] = obs.left.gripper_joint_positions
+        obs_dict["left_gripper_pose"] = obs.left.gripper_pose
+        obs_dict["left_gripper_open"] = np.array([obs.left.gripper_open])
         obs_dict["right_joint_positions"] = obs.right.joint_positions
         obs_dict["right_gripper_joint_positions"] = obs.right.gripper_joint_positions
+        obs_dict["right_gripper_pose"] = obs.right.gripper_pose
+        obs_dict["right_gripper_open"] = np.array([obs.right.gripper_open])
 
         return obs_dict
 

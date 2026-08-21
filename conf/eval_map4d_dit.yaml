@@ -1,0 +1,46 @@
+defaults:
+    - _self_
+    - method: MAP4D_DIT
+
+rlbench:
+    task_name: box
+    tasks: [bimanual_push_box]
+    demo_path: ${oc.env:RLBENCH2_TEST_DEMO_PATH,/inspire/hdd/project/robot-dna/baojiachun-CZXS25130063/zehao/4dmap/4dmap_policy/dataset/rlbench2/bimanual_push_box/test}
+    episode_length: 300
+    cameras_pcd: ["over_shoulder_left", "over_shoulder_right", "overhead", "wrist_right", "wrist_left", "front"]
+    cameras: ["over_shoulder_left", "over_shoulder_right", "overhead", "wrist_right", "wrist_left", "front"]
+    camera_resolution: [256, 256]
+    scene_bounds: [-0.3, -0.5, 0.6, 0.7, 0.5, 1.6]
+    include_lang_goal_in_obs: true
+    time_in_state: true
+    headless: true
+    gripper_mode: BimanualDiscrete
+    arm_action_mode: BimanualEndEffectorPoseViaPlanning
+    action_mode: BimanualMoveArmThenGripper
+    query_freq: 20
+
+framework:
+    tensorboard_logging: false
+    csv_logging: true
+    gpu: 0
+    logdir: outputs/rlbench2_map4d_dit_eval
+    weightsdir: ""
+    ckpt_path: ${oc.env:MAP4D_DIT_CKPT,""}
+    use_ema: true
+    strict_load: true
+    start_seed: 0
+    record_every_n: 5
+    eval_envs: 1
+    eval_from_eps_number: 0
+    eval_episodes: 5
+    eval_type: 0
+    eval_save_metrics: false
+    eval_processes: 1
+    training_iterations: 100
+
+cinematic_recorder:
+    enabled: false
+    camera_resolution: [1280, 720]
+    fps: 30
+    rotate_speed: 0.005
+    save_path: ${framework.logdir}/${rlbench.task_name}/videos

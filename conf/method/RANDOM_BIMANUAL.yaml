@@ -1,0 +1,8 @@
+name: RANDOM_BIMANUAL
+agent_type: bimanual
+robot_name: bimanual
+n_obs_steps: 1
+position_noise: 0.01
+gripper_flip_prob: 0.05
+include_ignore_collisions: true
+seed: 0
